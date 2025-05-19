@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Dev Blog</title>
+  <meta name="google-site-verification" content="google500c9172a3ba80e4.html" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #000;
+      font-family: 'Roboto', sans-serif;
+      color: #fff;
+    }
+    #login-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #000;
+      padding: 20px;
+    }
+    .login-box {
+      background-color: #111;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 0 15px #00ffff;
+      text-align: center;
+      width: 100%;
+      max-width: 350px;
+    }
+    .login-box h2 {
+      margin-bottom: 20px;
+      font-size: 24px;
+    }
+    .login-box input {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 6px;
+      border: none;
+      outline: none;
+      font-size: 16px;
+    }
+    .login-box button {
+      width: 100%;
+      padding: 10px;
+      background-color: #00ffff;
+      color: #000;
+      font-weight: bold;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    .login-box button:hover {
+      background-color: #00cccc;
+    }
+    .error {
+      color: red;
+      margin-top: 10px;
+      font-size: 14px;
+    }
+    #site-content {
+      display: none;
+    }
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      text-align: center;
+      padding: 20px;
+    }
+    .main-title {
+      font-size: 40px;
+      color: #00ffff;
+      text-shadow: 0 0 10px #00ffff;
+      margin-bottom: 30px;
+    }
+    .welcome-title {
+      font-size: 24px;
+      color: #00ffff;
+      padding: 10px 20px;
+      border: 2px solid #00ffff;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #00ffff;
+      cursor: pointer;
+      margin: 10px 0;
+    }
+    .admin-link {
+      margin-top: 20px;
+      color: #ff0;
+      font-size: 18px;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+    #admin-panel {
+      display: none;
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: rgba(0, 128, 0, 0.8);
+      color: #fff;
+      padding: 15px;
+      border-radius: 10px;
+      text-align: center;
+      width: 90%;
+      max-width: 300px;
+    }
+    .close-button {
+      background-color: red;
+      border: none;
+      padding: 8px 15px;
+      color: white;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+    footer {
+      text-align: center;
+      margin-top: 50px;
+      font-size: 14px;
+      padding: 20px;
+    }
+    .rain {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 999;
+    }
+    .drop {
+      position: absolute;
+      bottom: 100%;
+      width: 2px;
+      height: 20px;
+      background: #00ffff;
+      animation: fall linear infinite;
+      opacity: 0.5;
+    }
+    @keyframes fall {
+      to {
+        transform: translateY(110vh);
+      }
+    }
+    @media (max-width: 600px) {
+      .main-title {
+        font-size: 30px;
+      }
+      .welcome-title {
+        font-size: 20px;
+        padding: 8px 16px;
+      }
+      .login-box {
+        padding: 20px;
+      }
+      .login-box h2 {
+        font-size: 20px;
+      }
+      .admin-link {
+        font-size: 16px;
+      }
+    }
+    .social-icons {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      display: flex;
+      gap: 15px;
+      z-index: 1000;
+    }
+    .social-icons .icon {
+      width: 50px;
+      height: 50px;
+      transition: transform 0.3s;
+    }
+    .social-icons .icon:hover {
+      transform: scale(1.2);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="rain" id="rain"></div>
+
+  <div id="login-container">
+    <div class="login-box">
+      <h2>Saytga kirish</h2>
+      <input type="text" id="login" placeholder="Login">
+      <input type="password" id="password" placeholder="Parol">
+      <button onclick="checkLogin()">Kirish</button>
+      <div id="error" class="error"></div>
+    </div>
+  </div>
+
+  <div id="site-content">
+    <div class="container" id="main-panel">
+      <h1 class="main-title">My Dev Blog</h1>
+      <section class="welcome-section">
+        <h2 id="welcome-click" class="welcome-title" onclick="showStatusPanel()">Blogga xush kelibsiz!</h2>
+        <p class="welcome-text">
+          Bu yerda <strong>S.A.A</strong> ning shaxsiy blogi va texnologiyalar haqida maqolalar bo‘ladi.
+        </p>
+        <span class="admin-link" onclick="showAdminPanel()">Admin paneliga kirish</span>
+      </section>
+    </div>
+
+    <div class="container" id="status-panel" style="display:none;">
+      <button onclick="goBack()" class="welcome-title" style="margin-bottom: 20px;">⬅ Menyuga qaytish</button>
+      <h2>Statuslar paneli</h2>
+      <div>
+        <button onclick="showTab('blog')" class="welcome-title">Blog</button>
+        <button onclick="showTab('status')" class="welcome-title">Status</button>
+      </div>
+      <div id="blog" class="tab-content"><p>Blog kontenti</p></div>
+      <div id="status" class="tab-content" style="display:none;">
+        <h3>🎬 Tavsiya etilgan kino</h3>
+
+        <!-- OK.ru video -->
+        <iframe src="https://ok.ru/videoembed/2089503820387"
+          width="560"
+          height="315"
+          frameborder="0"
+          allowfullscreen
+          style="border-radius: 10px; box-shadow: 0 0 15px #00ffff; max-width: 100%; margin-top: 20px;">
+        </iframe>
+
+        <!-- YouTube video -->
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/LtSC1LAw6DA"
+          title="YouTube video player" frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen style="border-radius: 10px; box-shadow: 0 0 15px #00ffff; max-width: 100%; margin-top: 20px;">
+        </iframe>
+      </div>
+    </div>
+
+    <div id="admin-panel">
+      <p>Admin: Sobirov Abdusami Akbarovich</p>
+      <p><a href="tel:+998914912414" target="_blank">Mobil raqam: +998914912414</a></p>
+      <button class="close-button" onclick="closeAdminPanel()">Yopish</button>
+    </div>
+
+    <footer>
+      <p>&copy; 2025 My Dev Blog</p>
+    </footer>
+  </div>
+
+  <div class="social-icons">
+    <a href="https://t.me/ibnakbar7" target="_blank">
+      <img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" alt="Telegram" class="icon">
+    </a>
+    <a href="https://www.instagram.com/ibnakbar7/" target="_blank">
+      <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="Instagram" class="icon">
+    </a>
+  </div>
+
+  <script>
+    function checkLogin() {
+      const login = document.getElementById('login').value;
+      const password = document.getElementById('password').value;
+      const error = document.getElementById('error');
+
+      if (login === 'shef' && password === '117') {
+        document.getElementById('login-container').style.display = 'none';
+        document.getElementById('site-content').style.display = 'block';
+        showAdminPanel();
+      } else {
+        error.textContent = '❌ Noto‘g‘ri login yoki parol!';
+      }
+    }
+
+    function showAdminPanel() {
+      document.getElementById('admin-panel').style.display = 'block';
+    }
+
+    function closeAdminPanel() {
+      document.getElementById('admin-panel').style.display = 'none';
+    }
+
+    function showStatusPanel() {
+      document.getElementById('main-panel').style.display = 'none';
+      document.getElementById('status-panel').style.display = 'block';
+    }
+
+    function goBack() {
+      document.getElementById('status-panel').style.display = 'none';
+      document.getElementById('main-panel').style.display = 'block';
+    }
+
+    function showTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(el => el.style.display = 'none');
+      document.getElementById(tabId).style.display = 'block';
+    }
+
+    const rainContainer = document.getElementById('rain');
+    for (let i = 0; i < 100; i++) {
+      const drop = document.createElement('div');
+      drop.classList.add('drop');
+      drop.style.left = Math.random() * 100 + 'vw';
+      drop.style.animationDuration = (Math.random() * 1 + 0.5) + 's';
+      drop.style.animationDelay = Math.random() * 5 + 's';
+      rainContainer.appendChild(drop);
+    }
+  </script>
+</body>
+</html>
